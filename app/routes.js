@@ -11,8 +11,7 @@ module.exports = function(app) {
 
     // sample api route
     app.get('/api', function(req, res) {
-        // use mongoose to get all nerds in the database
-        res.json({ status: 'OK' }); // return all nerds in JSON format
+        res.json({ status: 'OK' });
     });
 
     // sample api route
@@ -30,11 +29,12 @@ module.exports = function(app) {
     });
 
     app.get('/api/nerds/:id', function(req, res) {
-        Nerd.findById(req.params.id, function(err, nerds) {
+        Nerd.findById(req.params.id, function(err, nerd) {
             if (err) {
                 res.send(err);
             }
-            res.json(nerds); // return all nerds in JSON format
+            if (!nerd) return res.sendStatus(404);
+            res.json(nerd);
         });
     });
 
