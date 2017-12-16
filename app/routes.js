@@ -30,10 +30,7 @@ module.exports = function(app) {
     });
 
     app.get('/api/nerds/:id', function(req, res) {
-        // use mongoose to get all nerds in the database
         Nerd.findById(req.params.id, function(err, nerds) {
-            // if there is an error retrieving, send the error.
-            // nothing after res.send(err) will execute
             if (err) {
                 res.send(err);
             }
@@ -44,7 +41,6 @@ module.exports = function(app) {
 
     // sample api route
     app.post('/api/nerds', function(req, res) {
-        // use mongoose to get all nerds in the database
         Nerd.create({ name: req.body.name }, function (err, nerd) {
             if (err) return handleError(err);
             res.json(nerd);
