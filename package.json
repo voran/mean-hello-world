@@ -2,7 +2,7 @@
   "name": "mean-hello-world",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/voran/mean-hello-world/issues"
   },
-  "homepage": "https://github.com/voran/mean-hello-world#readme"
+  "homepage": "https://github.com/voran/mean-hello-world#readme",
+  "dependencies": {
+    "express": "~4.15.3",
+    "mongoose": "latest",
+    "body-parser": "latest",
+    "method-override": "latest"
+  }
 }
