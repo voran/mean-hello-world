@@ -10,40 +10,59 @@ module.exports = function(app) {
   // authentication routes
 
     // sample api route
-    app.get('/api', function(req, res) {
+    app.get('/api', async (req, res) => {
         res.json({ status: 'OK' });
     });
 
-    // sample api route
-    app.get('/api/nerds', function(req, res) {
-        // use mongoose to get all nerds in the database
-        Nerd.find(function(err, nerds) {
-            // if there is an error retrieving, send the error.
-            // nothing after res.send(err) will execute
-            if (err) {
-                res.send(err);
-            }
-            res.json(nerds); // return all nerds in JSON format
-        });
-
+    app.get('/api/nerds', async (req, res) => {
+        try {
+            const nerds = await Nerd.find();
+            res.json(nerds);
+        } catch(error) {
+            res.status(500).json({message: error.message});
+        }
     });
 
-    app.get('/api/nerds/:id', function(req, res) {
-        Nerd.findById(req.params.id, function(err, nerd) {
-            if (err) {
-                res.send(err);
+    app.get('/api/nerds/:id', async (req, res) => {
+        try {
+            const nerd = await Nerd.findById(req.params.id);
+            if (!nerd) {
+                return res.status(404).json({mesage: 'Not Found'});
             }
-            if (!nerd) return res.sendStatus(404);
             res.json(nerd);
-        });
+        } catch(error) {
+          res.status(500).json({message: error.message});
+        }
     });
 
 
-    // sample api route
-    app.post('/api/nerds', function(req, res) {
-        Nerd.create({ name: req.body.name }, function (err, nerd) {
-            if (err) return handleError(err);
-            res.json(nerd);
-        });
+    app.post('/api/nerds', async (req, res) => {
+        try {
+            const nerd = await Nerd.create({ name: req.body.name });
+            res.status(201).json(nerd);
+        } catch(error) {
+            res.status(500).json({message: error.message});
+        }
+    });
+
+    app.patch('/api/nerds/:id', async (req, res) => {
+        try {
+            const nerd = await Nerd.findByIdAndUpdate(req.params.id, { $set: {name: req.body.name}});
+            if (!nerd) {
+                return res.status(404).json({mesage: 'Not Found'});
+            }
+            res.sendStatus(204);
+        } catch(error) {
+            res.status(500).json({message: error.message});
+        }
+    });
+
+    app.delete('/api/nerds/:id', async (req, res) => {
+        try {
+            const response = await Nerd.findByIdAndRemove(req.params.id);
+            res.status(200).json(response);
+        } catch(error) {
+            res.status(500).json({message: error.message});
+        }
     });
  };

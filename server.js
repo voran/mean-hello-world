@@ -13,6 +13,9 @@ var db = require('./config/db');
 // set our port
 var port = process.env.PORT || 8080;
 
+// DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated
+mongoose.Promise = global.Promise;
+
 // connect to our mongoDB database
 // (uncomment after you enter in your own credentials in config/db.js)
 mongoose.connect(db.uri, { useMongoClient: true });
