@@ -27,7 +27,7 @@ module.exports = function(app) {
         try {
             const nerd = await Nerd.findById(req.params.id);
             if (!nerd) {
-                return res.status(404).json({mesage: 'Not Found'});
+                return res.status(404).json({message: 'Not Found'});
             }
             res.json(nerd);
         } catch(error) {
@@ -49,7 +49,7 @@ module.exports = function(app) {
         try {
             const nerd = await Nerd.findByIdAndUpdate(req.params.id, { $set: {name: req.body.name}});
             if (!nerd) {
-                return res.status(404).json({mesage: 'Not Found'});
+                return res.status(404).json({message: 'Not Found'});
             }
             res.sendStatus(204);
         } catch(error) {
